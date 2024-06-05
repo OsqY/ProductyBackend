@@ -14,6 +14,8 @@ namespace Producty.Models
                 .HasMany(e => e.Todos)
                 .WithOne(u => u.User)
                 .HasForeignKey("UserId");
+
+            modelBuilder.Entity<AppUser>().Property(u => u.Id).ValueGeneratedOnAdd();
         }
 
         public DbSet<AppUser> Users { get; set; }

@@ -124,3 +124,5 @@
 /home/oscar/Desktop/C#/Producty/obj/Debug/net8.0/Producty.pdb
 /home/oscar/Desktop/C#/Producty/obj/Debug/net8.0/Producty.genruntimeconfig.cache
 /home/oscar/Desktop/C#/Producty/obj/Debug/net8.0/ref/Producty.dll
+/home/oscar/Desktop/C#/Producty/obj/Debug/net8.0/Producty.sourcelink.json
+/home/oscar/Desktop/C#/Producty/bin/Debug/net8.0/System.Security.Permissions.dll

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Producty.DTO
@@ -5,16 +6,17 @@ namespace Producty.DTO
     public class TodoDTO
     {
         [Required]
-        public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        [DefaultValue("")]
+        public string Description { get; set; } = "";
 
         [Required]
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
 
-        public DateTime DeadLine { get; set; }
+        public string DeadLine { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsCompleted { get; set; } = false;
     }
 }

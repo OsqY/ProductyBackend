@@ -12,8 +12,8 @@ using Producty.Models;
 namespace Producty.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240601005628_init")]
-    partial class init
+    [Migration("20240605031600_ChangedTodo")]
+    partial class ChangedTodo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,21 +27,11 @@ namespace Producty.Migrations
 
             modelBuilder.Entity("Producty.Models.AppUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Auth0Id")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -68,6 +58,9 @@ namespace Producty.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime(6)");
 
@@ -78,8 +71,9 @@ namespace Producty.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 

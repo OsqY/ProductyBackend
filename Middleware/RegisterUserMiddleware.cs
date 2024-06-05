@@ -15,22 +15,32 @@ namespace Producty.Middleware
 
         public async Task InvokeAsync(HttpContext context, AppDbContext dbContext)
         {
-            if (context.User.Identity.IsAuthenticated)
+            Console.WriteLine("Request started");
+
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                Console.WriteLine("User unauthenticated");
+                throw new Exception("User unauthenticated");
+            }
+            else
             {
                 var auth0Id = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(auth0Id))
+                {
+                    auth0Id = context.User.FindFirst("sub")?.Value;
+                }
+
+                Console.WriteLine($"Auth0Id: {auth0Id}");
 
                 if (!string.IsNullOrEmpty(auth0Id))
                 {
                     var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Auth0Id == auth0Id);
                     if (user == null)
                     {
-                        new AppUser
-                        {
-                            Auth0Id = auth0Id,
-                            Name = context.User.Identity.Name,
-                            Email = context.User.FindFirst(ClaimTypes.Email)?.Value
-                        };
+                        user = new AppUser { Auth0Id = auth0Id, };
 
+                        Console.WriteLine("User added");
                         dbContext.Users.Add(user);
                         await dbContext.SaveChangesAsync();
                     }
