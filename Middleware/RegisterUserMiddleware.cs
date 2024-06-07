@@ -31,8 +31,6 @@ namespace Producty.Middleware
                     auth0Id = context.User.FindFirst("sub")?.Value;
                 }
 
-                Console.WriteLine($"Auth0Id: {auth0Id}");
-
                 if (!string.IsNullOrEmpty(auth0Id))
                 {
                     var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Auth0Id == auth0Id);

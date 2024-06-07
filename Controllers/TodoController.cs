@@ -59,7 +59,6 @@ namespace Producty.Controllers
         public async Task<IActionResult> GetTodo(int id)
         {
             var auth0Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine(id);
 
             if (auth0Id == null)
                 auth0Id = User.FindFirst("sub")?.Value;
@@ -107,11 +106,10 @@ namespace Producty.Controllers
                 LastModifiedDate = DateTime.Now,
                 UserId = user.Id
             };
-            Console.WriteLine("Todo added");
             await _context.Todos.AddAsync(todo);
             await _context.SaveChangesAsync();
 
-            return Ok(todo);
+            return new CreatedResult();
         }
 
         [HttpPut("{id}")]
@@ -151,7 +149,7 @@ namespace Producty.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteTodo(int id)
         {
             var auth0Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

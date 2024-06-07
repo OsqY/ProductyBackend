@@ -7,5 +7,8 @@ namespace Producty.Models
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
+
+        public string UserId { get; set; }
+        public AppUser? User { get; set; }
     }
 }
