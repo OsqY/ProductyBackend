@@ -80,7 +80,8 @@ namespace Producty.Controllers
             {
                 Name = input.Name,
                 Category = input.Category,
-                EarnedMoney = input.EarnedMoney
+                EarnedMoney = input.EarnedMoney,
+                UserId = user.Id
             };
 
             await _context.Incomes.AddAsync(income);
