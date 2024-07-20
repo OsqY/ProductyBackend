@@ -32,6 +32,15 @@ namespace Producty.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("CurrentStreak")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LastStreak")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastStudyDate")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -142,6 +151,41 @@ namespace Producty.Migrations
                     b.ToTable("JournalEntries");
                 });
 
+            modelBuilder.Entity("Producty.Models.StudySession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StudySessions");
+                });
+
             modelBuilder.Entity("Producty.Models.Todo", b =>
                 {
                     b.Property<int>("Id")
@@ -217,6 +261,17 @@ namespace Producty.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Producty.Models.StudySession", b =>
+                {
+                    b.HasOne("Producty.Models.AppUser", "User")
+                        .WithMany("StudySessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Producty.Models.Todo", b =>
                 {
                     b.HasOne("Producty.Models.AppUser", "User")
@@ -235,6 +290,8 @@ namespace Producty.Migrations
                     b.Navigation("Incomes");
 
                     b.Navigation("JournalEntries");
+
+                    b.Navigation("StudySessions");
 
                     b.Navigation("Todos");
                 });

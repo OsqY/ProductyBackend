@@ -31,8 +31,9 @@ namespace Producty.Controllers
                 return new UnauthorizedObjectResult(new { message = "That user doesn't exists" });
 
             var expenses = await _context.Expenses.Where(e => e.UserId == user.Id).ToArrayAsync();
+            var results = new RestDTO<Expense[]> { Data = expenses };
 
-            return Ok(expenses);
+            return Ok(results);
         }
 
         [HttpGet("{id}")]

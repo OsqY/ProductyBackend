@@ -12,8 +12,8 @@ using Producty.Models;
 namespace Producty.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240606152721_NewRelationships")]
-    partial class NewRelationships
+    [Migration("20240613212930_AddedStreak")]
+    partial class AddedStreak
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,12 @@ namespace Producty.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("CurrentStreak")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LastStreak")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -47,6 +53,10 @@ namespace Producty.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -61,10 +71,6 @@ namespace Producty.Migrations
                     b.Property<double>("SpentMoney")
                         .HasColumnType("double");
 
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -73,7 +79,7 @@ namespace Producty.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Expense");
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("Producty.Models.Income", b =>
@@ -83,6 +89,10 @@ namespace Producty.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -97,10 +107,6 @@ namespace Producty.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -109,7 +115,7 @@ namespace Producty.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Income");
+                    b.ToTable("Incomes");
                 });
 
             modelBuilder.Entity("Producty.Models.JournalEntry", b =>
@@ -142,7 +148,42 @@ namespace Producty.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JournalEntry");
+                    b.ToTable("JournalEntries");
+                });
+
+            modelBuilder.Entity("Producty.Models.StudySession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StudySessions");
                 });
 
             modelBuilder.Entity("Producty.Models.Todo", b =>
@@ -220,6 +261,17 @@ namespace Producty.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Producty.Models.StudySession", b =>
+                {
+                    b.HasOne("Producty.Models.AppUser", "User")
+                        .WithMany("StudySessions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Producty.Models.Todo", b =>
                 {
                     b.HasOne("Producty.Models.AppUser", "User")
@@ -238,6 +290,8 @@ namespace Producty.Migrations
                     b.Navigation("Incomes");
 
                     b.Navigation("JournalEntries");
+
+                    b.Navigation("StudySessions");
 
                     b.Navigation("Todos");
                 });

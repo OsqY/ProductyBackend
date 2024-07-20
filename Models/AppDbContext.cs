@@ -34,6 +34,12 @@ namespace Producty.Models
 
             modelBuilder
                 .Entity<AppUser>()
+                .HasMany(u => u.StudySessions)
+                .WithOne(s => s.User)
+                .HasForeignKey("UserId");
+
+            modelBuilder
+                .Entity<AppUser>()
                 .HasMany(u => u.Todos)
                 .WithOne(u => u.User)
                 .HasForeignKey("UserId");
@@ -43,6 +49,7 @@ namespace Producty.Models
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
+        public DbSet<StudySession> StudySessions { get; set; }
         public DbSet<Todo> Todos { get; set; }
     }
 }
